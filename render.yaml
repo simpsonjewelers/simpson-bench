@@ -1,0 +1,39 @@
+# Simpson Jewelers repair bench.
+# A persistent disk is required for photos and the SQLite file.
+# Disks attach only to paid web services, and the service stays on one instance.
+services:
+  - type: web
+    name: simpson-bench
+    runtime: docker
+    plan: starter
+    region: ohio
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /status
+    disk:
+      name: bench-data
+      mountPath: /data
+      sizeGB: 10
+    envVars:
+      - key: DATA_DIR
+        value: /data
+      - key: NODE_ENV
+        value: production
+      - key: SEED_DEMO
+        value: "false"
+      - key: VISION_BASE_URL
+        value: https://api.openai.com/v1
+      - key: VISION_MODEL
+        value: gpt-4o-mini
+      - key: VISION_API_KEY
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_FROM_NUMBER
+        sync: false
+      - key: STAFF_PASSWORD
+        sync: false
+      - key: PUBLIC_BASE_URL
+        sync: false

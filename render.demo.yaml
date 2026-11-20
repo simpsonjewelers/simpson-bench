@@ -1,0 +1,46 @@
+# Free Render demo. No disk: photos and SQLite live on the ephemeral disk and are recreated on every boot.
+# The service sleeps after about 15 minutes without traffic. The next open starts fresh demo data.
+services:
+  - type: web
+    name: simpson-bench-demo
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /status
+    envVars:
+      - key: DATA_DIR
+        value: /tmp/simpson-data
+      - key: NODE_ENV
+        value: production
+      - key: DEMO_MODE
+        value: "true"
+      - key: SEED_DEMO
+        value: "true"
+      - key: VISION_BASE_URL
+        value: https://api.openai.com/v1
+      - key: VISION_MODEL
+        value: gpt-4o-mini
+      - key: VISION_API_KEY
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_FROM_NUMBER
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: STAFF_PASSWORD
+        sync: false
+      - key: PUBLIC_BASE_URL
+        sync: false
